@@ -10,23 +10,30 @@ func main() {
 	fmt.Print("topclean\n\n")
 	apps := getApps()
 	for i := 0; i < len(apps); i++ {
-		err := clean(apps[i])
-		catch(err, "", "")
+		app := apps[i]
+		if app.aggressive == false {
+			err := clean(apps[i])
+			catch(err, "", "")
+		}
 	}
 	fmt.Print("\ndone\n")
 }
 
 type App struct {
-	name string
-	cmd  string
-	args []string
+	name       string
+	cmd        string
+	args       []string
+	aggressive bool // may delete files that will require longer redownload, regeneration or are marked for permantent deletion
 }
 
 func getApps() []App {
 	apps := []App{
-		{"scoop", "scoop", []string{"cleanup", "*"}},
-		{"npm", "npm", []string{"cache", "verify"}},
-		{"yarn", "yarn", []string{"cache", "clean"}},
+		{"scoop", "scoop", []string{"cleanup", "*"}, false},
+		{"npm", "npm", []string{"cache", "verify"}, false},
+		{"npm", "npm", []string{"cache", "clean", "--force"}, true},
+		{"yarn", "yarn", []string{"cache", "clean"}, false},
+		{"cleanmgr", "cleanmgr", []string{"/d", "c", "/autoclean"}, false},
+		{"cleanmgr", "cleanmgr", []string{"/d", "c", "/verylowdisk"}, true},
 	}
 	return apps
 }
