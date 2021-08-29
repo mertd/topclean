@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"os/exec"
 )
 
@@ -31,7 +30,7 @@ func getApps() []App {
 }
 
 func clean(app App) {
-	log.Println("Cleaning " + app.name)
+	fmt.Println("Cleaning " + app.name)
 	var stdout, stderr bytes.Buffer
 	cmd := exec.Command(app.cmd, app.args...)
 	cmd.Stdout = &stdout
@@ -42,13 +41,12 @@ func clean(app App) {
 
 func catch(err error, stdout string, stderr string) {
 	if stdout != "" {
-		log.Println(stdout)
+		fmt.Println(stdout)
 	}
 	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
 		if stderr != "" {
-			log.Println(stderr)
+			fmt.Println(stderr)
 		}
-		log.Fatalln("Exiting topclean because of a fatal error. Check the logging output above.")
 	}
 }
