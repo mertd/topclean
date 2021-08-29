@@ -7,12 +7,13 @@ import (
 )
 
 func main() {
-	fmt.Println("topclean")
+	fmt.Print("topclean\n\n")
 	apps := getApps()
 	for i := 0; i < len(apps); i++ {
-		clean(apps[i])
+		err := clean(apps[i])
+		catch(err, "", "")
 	}
-	fmt.Println("done")
+	fmt.Print("\ndone\n")
 }
 
 type App struct {
@@ -25,11 +26,12 @@ func getApps() []App {
 	apps := []App{
 		{"scoop", "scoop", []string{"cleanup", "*"}},
 		{"npm", "npm", []string{"cache", "verify"}},
+		{"yarn", "yarn", []string{"cache", "clean"}},
 	}
 	return apps
 }
 
-func clean(app App) {
+func clean(app App) error {
 	fmt.Println("Cleaning " + app.name)
 	var stdout, stderr bytes.Buffer
 	cmd := exec.Command(app.cmd, app.args...)
@@ -37,6 +39,7 @@ func clean(app App) {
 	cmd.Stderr = &stderr
 	err := cmd.Run()
 	catch(err, stdout.String(), stderr.String())
+	return err
 }
 
 func catch(err error, stdout string, stderr string) {
