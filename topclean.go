@@ -6,15 +6,22 @@ import (
 	"os/exec"
 )
 
+var prefix = "[topclean] "
+var apps = []App{
+	{"scoop", "scoop", []string{"cleanup", "*"}},
+	{"npm", "npm", []string{"cache", "clean", "--force"}},
+	{"yarn", "yarn", []string{"cache", "clean"}},
+	{"cleanmgr", "cleanmgr", []string{"/d", "c", "/verylowdisk"}},
+}
+
 func main() {
-	fmt.Print("topclean\n\n")
-	apps := getApps()
+	fmt.Println(prefix + "Starting!")
 	for i := 0; i < len(apps); i++ {
 		app := apps[i]
 		err := clean(app)
 		catch(err)
 	}
-	fmt.Print("\ndone\n")
+	fmt.Println(prefix + "Done!")
 }
 
 type App struct {
@@ -23,24 +30,13 @@ type App struct {
 	args []string
 }
 
-func getApps() []App {
-	apps := []App{
-		{"scoop", "scoop", []string{"cleanup", "*"}},
-		{"npm", "npm", []string{"cache", "clean", "--force"}},
-		{"yarn", "yarn", []string{"cache", "clean"}},
-		{"cleanmgr", "cleanmgr", []string{"/d", "c", "/verylowdisk"}},
-	}
-	return apps
-}
-
 func clean(app App) error {
-	fmt.Println("Cleaning " + app.name)
+	fmt.Println(prefix + "Cleaning " + app.name)
 	var stdout, stderr bytes.Buffer
 	cmd := exec.Command(app.cmd, app.args...)
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	err := cmd.Run()
-	catch(err)
 	cmdLog(stdout.String(), stderr.String())
 	return err
 }
