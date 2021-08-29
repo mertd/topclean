@@ -7,14 +7,14 @@ import (
 )
 
 func main() {
-	fmt.Print("topclean\n\n")
+	fmt.Println("[topclean] Starting!")
 	apps := getApps()
 	for i := 0; i < len(apps); i++ {
 		app := apps[i]
 		err := clean(app)
 		catch(err)
 	}
-	fmt.Print("\ndone\n")
+	fmt.Println("[topclean] Done!")
 }
 
 type App struct {
@@ -34,7 +34,7 @@ func getApps() []App {
 }
 
 func clean(app App) error {
-	fmt.Println("Cleaning " + app.name)
+	fmt.Println("[topclean] Cleaning " + app.name)
 	var stdout, stderr bytes.Buffer
 	cmd := exec.Command(app.cmd, app.args...)
 	cmd.Stdout = &stdout
