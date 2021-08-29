@@ -12,7 +12,7 @@ func main() {
 	for i := 0; i < len(apps); i++ {
 		app := apps[i]
 		err := clean(app)
-		catch(err, "", "")
+		catch(err)
 	}
 	fmt.Print("\ndone\n")
 }
@@ -40,18 +40,22 @@ func clean(app App) error {
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	err := cmd.Run()
-	catch(err, stdout.String(), stderr.String())
+	catch(err)
+	cmdLog(stdout.String(), stderr.String())
 	return err
 }
 
-func catch(err error, stdout string, stderr string) {
+func cmdLog(stdout string, stderr string) {
 	if stdout != "" {
 		fmt.Println(stdout)
 	}
+	if stderr != "" {
+		fmt.Println(stderr)
+	}
+}
+
+func catch(err error) {
 	if err != nil {
 		fmt.Println(err)
-		if stderr != "" {
-			fmt.Println(stderr)
-		}
 	}
 }
