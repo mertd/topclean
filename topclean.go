@@ -7,10 +7,15 @@ import (
 )
 
 var prefix = "[topclean] "
+var apps = []App{
+	{"scoop", "scoop", []string{"cleanup", "*"}},
+	{"npm", "npm", []string{"cache", "clean", "--force"}},
+	{"yarn", "yarn", []string{"cache", "clean"}},
+	{"cleanmgr", "cleanmgr", []string{"/d", "c", "/verylowdisk"}},
+}
 
 func main() {
 	fmt.Println(prefix + "Starting!")
-	apps := getApps()
 	for i := 0; i < len(apps); i++ {
 		app := apps[i]
 		err := clean(app)
@@ -23,16 +28,6 @@ type App struct {
 	name string
 	cmd  string
 	args []string
-}
-
-func getApps() []App {
-	apps := []App{
-		{"scoop", "scoop", []string{"cleanup", "*"}},
-		{"npm", "npm", []string{"cache", "clean", "--force"}},
-		{"yarn", "yarn", []string{"cache", "clean"}},
-		{"cleanmgr", "cleanmgr", []string{"/d", "c", "/verylowdisk"}},
-	}
-	return apps
 }
 
 func clean(app App) error {
