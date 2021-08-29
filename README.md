@@ -17,4 +17,4 @@ Until builds are provided, you need to run `go run main.go`.
 
 ## Licence
 
-[MIT](LICENCE.md)
+[MIT](LICENCE)
