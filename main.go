@@ -24,7 +24,8 @@ type App struct {
 
 func getApps() []App {
 	apps := []App{
-		{"Scoop", "scoop", []string{"cleanup", "*"}},
+		{"scoop", "scoop", []string{"cleanup", "*"}},
+		{"npm", "npm", []string{"cache", "verify"}},
 	}
 	return apps
 }
