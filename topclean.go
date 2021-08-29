@@ -40,7 +40,6 @@ func clean(app App) error {
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
 	err := cmd.Run()
-	catch(err)
 	cmdLog(stdout.String(), stderr.String())
 	return err
 }
