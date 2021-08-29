@@ -13,7 +13,7 @@ The goal is to provide disk cleaning functionality like BleachBit, but in a zero
 
 `topclean` is intended to be executed when you are running low on disk space and you are sure that deleting temporary files, caches, files marked for deletion (e.g. recycle bin) etc. is safe.
 
-Until builds are provided, you need to run `go run main.go`.
+Until builds are provided, you need to run `go run topclean.go`.
 
 ## Licence
 
