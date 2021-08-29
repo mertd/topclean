@@ -7,7 +7,7 @@
 - [BleachBit](https://github.com/bleachbit/bleachbit)
 - [topgrade](https://github.com/r-darwish/topgrade)
 
-The goal is to provide disk cleaning functionality like BleachBit, but in a "just run it" way like topgrade offers for software upgrades. Another similarity to the latter is a focus on development tools.
+The goal is to provide disk cleaning functionality like BleachBit, but in a zero/low config way like topgrade offers for software upgrades. Another similarity to the latter is a focus on development tools.
 
 ## Usage
 
