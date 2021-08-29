@@ -6,15 +6,17 @@ import (
 	"os/exec"
 )
 
+var prefix = "[topclean] "
+
 func main() {
-	fmt.Println("[topclean] Starting!")
+	fmt.Println(prefix + "Starting!")
 	apps := getApps()
 	for i := 0; i < len(apps); i++ {
 		app := apps[i]
 		err := clean(app)
 		catch(err)
 	}
-	fmt.Println("[topclean] Done!")
+	fmt.Println(prefix + "Done!")
 }
 
 type App struct {
@@ -34,7 +36,7 @@ func getApps() []App {
 }
 
 func clean(app App) error {
-	fmt.Println("[topclean] Cleaning " + app.name)
+	fmt.Println(prefix + "Cleaning " + app.name)
 	var stdout, stderr bytes.Buffer
 	cmd := exec.Command(app.cmd, app.args...)
 	cmd.Stdout = &stdout
