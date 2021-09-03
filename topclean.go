@@ -12,6 +12,8 @@ var apps = []App{
 	{"npm", "npm", []string{"cache", "clean", "--force"}},
 	{"yarn", "yarn", []string{"cache", "clean"}},
 	{"cleanmgr", "cleanmgr", []string{"/d", "c", "/verylowdisk"}},
+	{"brew", "brew cleanup", []string{"brew", "cleanup"}},
+	{"brew cask", "brew cask cleanup", []string{"brew", "cask", "cleanup"}},
 }
 
 func main() {
