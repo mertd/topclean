@@ -1,4 +1,6 @@
 fn main() {
     let prefix = "[topclean]";
-    println!("{}", prefix);
+    println!("{} Starting!", prefix);
+    // do something
+    println!("{} Done!", prefix);
 }
