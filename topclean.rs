@@ -1,3 +1,4 @@
 fn main() {
-    println!("topclean");
+    let prefix = "[topclean]";
+    println!("{}", prefix);
 }
