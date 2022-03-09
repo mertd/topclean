@@ -39,7 +39,7 @@ impl App {
     }
 }
 
-fn main() {
+fn run() -> bool {
     println!("{} Starting!", PREFIX);
     let apps = [
         App {name: s("scoop"), cmd: s("scoop"), args: vec![s("cleanup"), s("*")]},
@@ -52,4 +52,19 @@ fn main() {
         app.clean();
     }
     println!("{} Done!", PREFIX);
+    return true;
+}
+
+fn main() {
+    run();
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn runs() {
+        let result = run();
+        assert_eq!(result, true);
+    }
 }
