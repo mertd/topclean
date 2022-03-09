@@ -1,4 +1,4 @@
-use std::process::Command;
+use std::process::{Command, Output};
 use std::io::{self, Write};
 
 const PREFIX: &str = "[topclean]";
@@ -17,17 +17,26 @@ struct App {
 }
 
 impl App {
-    fn clean(&self) {
+    fn clean(&self) -> Output {
         println!("{} Cleaning {}", PREFIX, self.name);
-        let output = Command::new("cmd")
-            .arg("/C")
+        let shell: &str;
+        let arg: &str;
+        if cfg!(target_os = "windows") {
+            shell = "cmd";
+            arg = "/C";
+        } else {
+            shell = "sh";
+            arg = "-c";
+        }
+        let output = Command::new(shell)
+            .arg(arg)
             .arg(&self.cmd)
             .args(&self.args)
             .output()
             .expect(&[&self.name, "cleaning failed"].join(" "));
-        println!("status: {}", output.status);
         io::stdout().write_all(&output.stdout).unwrap();
         io::stderr().write_all(&output.stderr).unwrap();
+        return output;
     }
 }
 
