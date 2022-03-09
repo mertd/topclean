@@ -15,7 +15,7 @@ Also, I wanted to try out Rust.
 
 `topclean` is intended to be executed when you are running low on disk space and you are sure that deleting temporary files, caches, files marked for deletion (e.g. recycle bin) etc. is safe.
 
-Until builds are provided, you need to run `rustc topclean.rs && topclean.exe`.
+Until builds are provided, you need to run `rustc topclean.rs && ./topclean` (append `.exe` on Windows).
 
 ## Licence
 
