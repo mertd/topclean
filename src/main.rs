@@ -29,8 +29,7 @@ impl App {
             arg = "-c";
         }
         let output = Command::new(shell)
-            .arg(arg)
-            .arg(&self.cmd)
+            .args([arg, &self.cmd])
             .args(&self.args)
             .output()
             .expect(&[&self.name, "cleaning failed"].join(" "));
@@ -42,7 +41,6 @@ impl App {
 
 fn main() {
     println!("{} Starting!", PREFIX);
-    // do something    
     let apps = [
         App {name: s("scoop"), cmd: s("scoop"), args: vec![s("cleanup"), s("*")]},
         App {name: s("npm"), cmd: s("npm"), args: vec![s("cache"), s("clean"), s("--force")]},
@@ -53,6 +51,5 @@ fn main() {
     for app in apps {
         app.clean();
     }
-    // done
     println!("{} Done!", PREFIX);
 }
