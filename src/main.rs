@@ -1,4 +1,5 @@
 use std::process::Command;
+use std::io::{self, Write};
 
 const PREFIX: &str = "[topclean]";
 
@@ -23,6 +24,8 @@ impl App {
             .output()
             .expect(&[&self.name, "cleaning failed"].join(" "));
         println!("status: {}", output.status);
+        io::stdout().write_all(&output.stdout).unwrap();
+        io::stderr().write_all(&output.stderr).unwrap();
     }
 }
 
