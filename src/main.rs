@@ -1,3 +1,5 @@
+use std::process::Command;
+
 const PREFIX: &str = "[topclean]";
 
 /**
@@ -15,8 +17,12 @@ struct App {
 
 impl App {
     fn clean(&self) {
-        println!("{} Cleaning {}", PREFIX, self.name)
-        // do it
+        println!("{} Cleaning {}", PREFIX, self.name);
+        let output = Command::new(&self.cmd)
+            .args(&self.args)
+            .output()
+            .expect(&[&self.name, "cleaning failed"].join(" "));
+        println!("status: {}", output.status);
     }
 }
 
