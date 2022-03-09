@@ -19,7 +19,9 @@ struct App {
 impl App {
     fn clean(&self) {
         println!("{} Cleaning {}", PREFIX, self.name);
-        let output = Command::new(&self.cmd)
+        let output = Command::new("cmd")
+            .arg("/C")
+            .arg(&self.cmd)
             .args(&self.args)
             .output()
             .expect(&[&self.name, "cleaning failed"].join(" "));
