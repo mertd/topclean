@@ -1,3 +1,4 @@
+const PREFIX: &str = "[topclean]";
 
 /**
  * Shorthand to convert String
@@ -7,13 +8,18 @@ fn s(input: &str) -> String {
 }
 
 fn main() {
-    let prefix =  "[topclean]";
-    println!("{} Starting!", prefix);
+    println!("{} Starting!", PREFIX);
     // do something
     struct App {
         name: String,
         cmd: String,
         args: Vec<String>,
+    }
+    impl App {
+        fn clean(&self) {
+            println!("{} Cleaning {}", PREFIX, self.name)
+            // do it
+        }
     }
     let apps = [
         App {name: s("scoop"), cmd: s("scoop"), args: vec![s("cleanup"), s("*")]},
@@ -23,6 +29,6 @@ fn main() {
         App {name: s("brew"), cmd: s("brew"), args: vec![s("cleanup")]},
     ];
     // done
-    println!("{} Done!", prefix);
+    println!("{} Done!", PREFIX);
 }
 
