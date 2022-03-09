@@ -7,20 +7,22 @@ fn s(input: &str) -> String {
     return String::from(input);
 }
 
+struct App {
+    name: String,
+    cmd: String,
+    args: Vec<String>,
+}
+
+impl App {
+    fn clean(&self) {
+        println!("{} Cleaning {}", PREFIX, self.name)
+        // do it
+    }
+}
+
 fn main() {
     println!("{} Starting!", PREFIX);
-    // do something
-    struct App {
-        name: String,
-        cmd: String,
-        args: Vec<String>,
-    }
-    impl App {
-        fn clean(&self) {
-            println!("{} Cleaning {}", PREFIX, self.name)
-            // do it
-        }
-    }
+    // do something    
     let apps = [
         App {name: s("scoop"), cmd: s("scoop"), args: vec![s("cleanup"), s("*")]},
         App {name: s("npm"), cmd: s("npm"), args: vec![s("cache"), s("clean"), s("--force")]},
@@ -34,4 +36,3 @@ fn main() {
     // done
     println!("{} Done!", PREFIX);
 }
-
