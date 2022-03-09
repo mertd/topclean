@@ -28,6 +28,9 @@ fn main() {
         App {name: s("cleanmgr"), cmd: s("cleanmgr"), args: vec![s("/d"), s("c"), s("/verylowdisk")]},
         App {name: s("brew"), cmd: s("brew"), args: vec![s("cleanup")]},
     ];
+    for app in apps {
+        app.clean();
+    }
     // done
     println!("{} Done!", PREFIX);
 }
