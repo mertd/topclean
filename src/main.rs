@@ -4,3 +4,9 @@ fn main() {
     // do something
     println!("{} Done!", prefix);
 }
+
+struct App {
+    name: String,
+    cmd: String,
+    args: [String],
+}
