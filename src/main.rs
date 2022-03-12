@@ -1,11 +1,9 @@
-use std::process::{Command, Output};
-use std::io::{self, Write};
 use duct::cmd;
 
 const PREFIX: &str = "[topclean]";
 
 /**
- * Shorthand to convert String
+ * Shorthand to convert &str to String
  */
 fn s(input: &str) -> String {
     return String::from(input);
