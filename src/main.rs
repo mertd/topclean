@@ -1,5 +1,5 @@
-use std::process::{Command, Output};
 use std::io::{self, Write};
+use std::process::{Command, Output};
 
 const PREFIX: &str = "[topclean]";
 
@@ -19,18 +19,18 @@ struct App {
 impl App {
     fn clean(&self) -> Output {
         println!("{} Cleaning {}", PREFIX, self.name);
-        let shell: &str;
-        let arg: &str;
+        let mut command: Command;
         if cfg!(target_os = "windows") {
-            shell = "cmd";
-            arg = "/C";
+            command = Command::new("cmd");
+            command.arg("/c");
+            command.arg(&self.cmd);
+            command.args(&self.args);
         } else {
-            shell = "sh";
-            arg = "-c";
+            command = Command::new("sh");
+            command.arg("-c");
+            command.arg(format!("{} {}", &self.cmd, &self.args.join(" ")));
         }
-        let output = Command::new(shell)
-            .args([arg, &self.cmd])
-            .args(&self.args)
+        let output = command
             .output()
             .expect(&[&self.name, "cleaning failed"].join(" "));
         io::stdout().write_all(&output.stdout).unwrap();
@@ -42,11 +42,31 @@ impl App {
 fn run() -> bool {
     println!("{} Starting!", PREFIX);
     let apps = [
-        App {name: s("scoop"), cmd: s("scoop"), args: vec![s("cleanup"), s("*")]},
-        App {name: s("npm"), cmd: s("npm"), args: vec![s("cache"), s("clean"), s("--force")]},
-        App {name: s("yarn"), cmd: s("yarn"), args: vec![s("cache"), s("clean")]},
-        App {name: s("cleanmgr"), cmd: s("cleanmgr"), args: vec![s("/d"), s("c"), s("/verylowdisk")]},
-        App {name: s("brew"), cmd: s("brew"), args: vec![s("cleanup")]},
+        App {
+            name: s("scoop"),
+            cmd: s("scoop"),
+            args: vec![s("cleanup"), s("*")],
+        },
+        App {
+            name: s("npm"),
+            cmd: s("npm"),
+            args: vec![s("cache"), s("clean"), s("--force")],
+        },
+        App {
+            name: s("yarn"),
+            cmd: s("yarn"),
+            args: vec![s("cache"), s("clean")],
+        },
+        App {
+            name: s("cleanmgr"),
+            cmd: s("cleanmgr"),
+            args: vec![s("/d"), s("c"), s("/verylowdisk")],
+        },
+        App {
+            name: s("brew"),
+            cmd: s("brew"),
+            args: vec![s("cleanup")],
+        },
     ];
     for app in apps {
         app.clean();
