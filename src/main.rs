@@ -23,13 +23,11 @@ impl App {
         if cfg!(target_os = "windows") {
             command = Command::new("cmd");
             command.arg("/c");
-            command.arg(&self.cmd);
-            command.args(&self.args);
         } else {
             command = Command::new("sh");
             command.arg("-c");
-            command.arg(format!("{} {}", &self.cmd, &self.args.join(" ")));
         }
+        command.arg(format!("{} {}", &self.cmd, &self.args.join(" ")));
         let output = command
             .output()
             .expect(&[&self.name, "cleaning failed"].join(" "));
