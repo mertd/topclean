@@ -97,7 +97,8 @@ mod tests {
     use super::*;
     #[test]
     fn runs() {
-        let result = run(true);
+        // Skip interactive commands as they will never exit in a CI pipeline
+        let result = run(false);
         assert_eq!(result, true);
     }
 }
