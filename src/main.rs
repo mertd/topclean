@@ -78,7 +78,6 @@ fn run(run_interactive: bool) -> bool {
     for app in apps {
         if !run_interactive && app.interactive {
             println!("{} Skipping {}", PREFIX, app.name);
-            return false;
         } else {
             println!("{} Cleaning {}", PREFIX, app.name);
             app.clean();
