@@ -1,5 +1,5 @@
 use std::io::{self, Write};
-use std::process::{Command, Output};
+use std::process::{Command};
 
 const PREFIX: &str = "[topclean]";
 
