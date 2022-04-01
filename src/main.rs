@@ -17,13 +17,13 @@ struct App {
     cmd: String,
     /** Arguments */
     args: Vec<String>,
-    /** Skip during test */
-    skip: bool,
+    /** Does not exit without user interaction */
+    interactive: bool,
 }
 
 impl App {
-    fn clean(&self) -> bool {
-        if self.skip {
+    fn clean(&self, skip_interactive: bool) -> bool {
+        if self.interactive && skip_interactive {
             println!("{} Skipping {}", PREFIX, self.name);
             return false;
         }
@@ -46,49 +46,49 @@ impl App {
     }
 }
 
-fn run() -> bool {
+fn run(skip_interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
     let apps = [
         App {
             name: s("scoop"),
             cmd: s("scoop"),
             args: vec![s("cleanup"), s("*")],
-            skip: false,
+            interactive: false,
         },
         App {
             name: s("npm"),
             cmd: s("npm"),
             args: vec![s("cache"), s("clean"), s("--force")],
-            skip: false,
+            interactive: false,
         },
         App {
             name: s("yarn"),
             cmd: s("yarn"),
             args: vec![s("cache"), s("clean")],
-            skip: false,
+            interactive: false,
         },
         App {
             name: s("cleanmgr"),
             cmd: s("cleanmgr"),
             args: vec![s("/d"), s("c"), s("/verylowdisk")],
-            skip: true,
+            interactive: true,
         },
         App {
             name: s("brew"),
             cmd: s("brew"),
             args: vec![s("cleanup")],
-            skip: false,
+            interactive: false,
         },
     ];
     for app in apps {
-        app.clean();
+        app.clean(skip_interactive);
     }
     println!("{} Done!", PREFIX);
     return true;
 }
 
 fn main() {
-    run();
+    run(false);
 }
 
 #[cfg(test)]
@@ -96,7 +96,7 @@ mod tests {
     use super::*;
     #[test]
     fn runs() {
-        let result = run();
+        let result = run(true);
         assert_eq!(result, true);
     }
 }
