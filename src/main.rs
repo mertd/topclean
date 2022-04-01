@@ -23,7 +23,7 @@ struct App {
 
 impl App {
     fn clean(&self, skip_interactive: bool) -> bool {
-        if self.interactive && skip_interactive {
+        if skip_interactive && self.interactive {
             println!("{} Skipping {}", PREFIX, self.name);
             return false;
         }
