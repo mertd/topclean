@@ -1,5 +1,5 @@
 use std::io::{self, Write};
-use std::process::{Command};
+use std::process::{Command, Output};
 
 const PREFIX: &str = "[topclean]";
 
@@ -22,12 +22,7 @@ struct App {
 }
 
 impl App {
-    fn clean(&self, skip_interactive: bool) -> bool {
-        if skip_interactive && self.interactive {
-            println!("{} Skipping {}", PREFIX, self.name);
-            return false;
-        }
-        println!("{} Cleaning {}", PREFIX, self.name);
+    fn clean(&self) -> Output {
         let mut command: Command;
         if cfg!(target_os = "windows") {
             command = Command::new("cmd");
@@ -42,11 +37,11 @@ impl App {
             .expect(&[&self.name, "cleaning failed"].join(" "));
         io::stdout().write_all(&output.stdout).unwrap();
         io::stderr().write_all(&output.stderr).unwrap();
-        return true;
+        return output;
     }
 }
 
-fn run(skip_interactive: bool) -> bool {
+fn run(run_interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
     let apps = [
         App {
@@ -81,14 +76,20 @@ fn run(skip_interactive: bool) -> bool {
         },
     ];
     for app in apps {
-        app.clean(skip_interactive);
+        if !run_interactive && app.interactive {
+            println!("{} Skipping {}", PREFIX, app.name);
+            return false;
+        } else {
+            println!("{} Cleaning {}", PREFIX, app.name);
+            app.clean();
+        }
     }
     println!("{} Done!", PREFIX);
     return true;
 }
 
 fn main() {
-    run(false);
+    run(true);
 }
 
 #[cfg(test)]
