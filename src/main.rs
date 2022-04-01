@@ -11,14 +11,18 @@ fn s(input: &str) -> String {
 }
 
 struct App {
+    /** App Name */
     name: String,
+    /** Executable */
     cmd: String,
+    /** Arguments */
     args: Vec<String>,
+    /** Does not exit without user interaction */
+    interactive: bool,
 }
 
 impl App {
     fn clean(&self) -> Output {
-        println!("{} Cleaning {}", PREFIX, self.name);
         let mut command: Command;
         if cfg!(target_os = "windows") {
             command = Command::new("cmd");
@@ -37,44 +41,54 @@ impl App {
     }
 }
 
-fn run() -> bool {
+fn run(run_interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
     let apps = [
         App {
             name: s("scoop"),
             cmd: s("scoop"),
             args: vec![s("cleanup"), s("*")],
+            interactive: false,
         },
         App {
             name: s("npm"),
             cmd: s("npm"),
             args: vec![s("cache"), s("clean"), s("--force")],
+            interactive: false,
         },
         App {
             name: s("yarn"),
             cmd: s("yarn"),
             args: vec![s("cache"), s("clean")],
+            interactive: false,
         },
         App {
             name: s("cleanmgr"),
             cmd: s("cleanmgr"),
             args: vec![s("/d"), s("c"), s("/verylowdisk")],
+            interactive: true,
         },
         App {
             name: s("brew"),
             cmd: s("brew"),
             args: vec![s("cleanup")],
+            interactive: false,
         },
     ];
     for app in apps {
-        app.clean();
+        if !run_interactive && app.interactive {
+            println!("{} Skipping {}", PREFIX, app.name);
+        } else {
+            println!("{} Cleaning {}", PREFIX, app.name);
+            app.clean();
+        }
     }
     println!("{} Done!", PREFIX);
     return true;
 }
 
 fn main() {
-    run();
+    run(true);
 }
 
 #[cfg(test)]
@@ -82,7 +96,8 @@ mod tests {
     use super::*;
     #[test]
     fn runs() {
-        let result = run();
+        // Skip interactive commands as they will never exit in a CI pipeline
+        let result = run(false);
         assert_eq!(result, true);
     }
 }
