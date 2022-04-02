@@ -1,0 +1,29 @@
+[[apps]]
+name = "scoop"
+cmd = "scoop"
+args = ["cleanup", "*"]
+interactive = false
+
+[[apps]]
+name = "npm"
+cmd = "npm"
+args = ["cache", "clean", "--force"]
+interactive = false
+
+[[apps]]
+name = "yarn"
+cmd = "yarn"
+args = ["cache", "clean"]
+interactive = false
+
+[[apps]]
+name = "cleanmgr"
+cmd = "cleanmgr"
+args = ["/d", "/c", "/verylowdisk"]
+interactive = true
+
+[[apps]]
+name = "brew"
+cmd = "brew"
+args = ["cleanup"]
+interactive = false
