@@ -2,8 +2,18 @@ use std::io::{self, Write};
 use std::process::{Command, Output};
 use serde_derive::{Deserialize};
 use std::fs;
+use clap::Parser;
 
 const PREFIX: &str = "[topclean]";
+
+/// Free up disk space by cleaning caches and temporary files
+#[derive(Parser, Debug)]
+#[clap(author, version, about, long_about = None)]
+struct Args {
+    /// Skip commands that require user interaction to exit
+    #[clap(short, long)]
+    skip_interactive: bool,
+}
 
 #[derive(Deserialize)]
 struct Config {
@@ -58,7 +68,11 @@ fn run(run_interactive: bool) -> bool {
 }
 
 fn main() {
-    run(true);
+    let args = Args::parse();
+    if args.skip_interactive {
+        println!("{} Skipping interactive commands", PREFIX);
+    }
+    run(!args.skip_interactive);
 }
 
 #[cfg(test)]
