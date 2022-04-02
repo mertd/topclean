@@ -1,15 +1,16 @@
 use std::io::{self, Write};
 use std::process::{Command, Output};
+use serde_derive::{Deserialize};
+use std::fs;
 
 const PREFIX: &str = "[topclean]";
 
-/**
- * Shorthand to convert String
- */
-fn s(input: &str) -> String {
-    return String::from(input);
+#[derive(Deserialize)]
+struct Config {
+    apps: Vec<App>
 }
 
+#[derive(Deserialize)]
 struct App {
     /** App Name */
     name: String,
@@ -43,39 +44,8 @@ impl App {
 
 fn run(run_interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
-    let apps = [
-        App {
-            name: s("scoop"),
-            cmd: s("scoop"),
-            args: vec![s("cleanup"), s("*")],
-            interactive: false,
-        },
-        App {
-            name: s("npm"),
-            cmd: s("npm"),
-            args: vec![s("cache"), s("clean"), s("--force")],
-            interactive: false,
-        },
-        App {
-            name: s("yarn"),
-            cmd: s("yarn"),
-            args: vec![s("cache"), s("clean")],
-            interactive: false,
-        },
-        App {
-            name: s("cleanmgr"),
-            cmd: s("cleanmgr"),
-            args: vec![s("/d"), s("c"), s("/verylowdisk")],
-            interactive: true,
-        },
-        App {
-            name: s("brew"),
-            cmd: s("brew"),
-            args: vec![s("cleanup")],
-            interactive: false,
-        },
-    ];
-    for app in apps {
+    let config: Config = toml::from_str(&fs::read_to_string("config.toml").unwrap()).unwrap();
+    for app in config.apps {
         if !run_interactive && app.interactive {
             println!("{} Skipping {}", PREFIX, app.name);
         } else {
