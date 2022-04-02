@@ -8,10 +8,10 @@ const PREFIX: &str = "[topclean]";
 
 /// Free up disk space by cleaning caches and temporary files
 #[derive(Parser, Debug)]
-#[clap(author, version, about, long_abount = None)]
+#[clap(author, version, about, long_about = None)]
 struct Args {
     /// Skip commands that require user interaction to exit
-    #[clap(short, long, default_value = "false")]
+    #[clap(short, long)]
     skip_interactive: bool,
 }
 
