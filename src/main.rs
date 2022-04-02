@@ -69,6 +69,9 @@ fn run(run_interactive: bool) -> bool {
 
 fn main() {
     let args = Args::parse();
+    if args.skip_interactive {
+        println!("{} Skipping interactive commands", PREFIX);
+    }
     run(!args.skip_interactive);
 }
 
