@@ -69,7 +69,7 @@ fn run(run_interactive: bool) -> bool {
 
 fn main() {
     let args = Args::parse();
-    run(args.skip_interactive);
+    run(!args.skip_interactive);
 }
 
 #[cfg(test)]
