@@ -27,3 +27,21 @@ name = "brew"
 cmd = "brew"
 args = ["cleanup"]
 interactive = false
+
+[[apps]]
+name = "brew autoremove"
+cmd = "brew"
+args = ["autoremove"]
+interactive = false
+    
+[[apps]]
+name = "apt clean"
+cmd = "apt"
+args = "clean"
+interactive = false
+
+[[apps]]
+name = "apt autoremove"
+cmd = "apt"
+args = ["autoremove"]
+interactive = false
