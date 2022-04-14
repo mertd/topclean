@@ -31,7 +31,7 @@ interactive = false
 [[apps]]
 name = "apt"
 cmd = "apt"
-args = "clean"
+args = ["clean"]
 interactive = false
 
 [[apps]]
