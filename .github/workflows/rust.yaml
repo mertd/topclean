@@ -20,9 +20,10 @@ jobs:
       run: cargo build --verbose
     - name: Test
       run: cargo test --verbose
-      
+
   ci_on_container:
     name: CI
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         container: [debian, fedora, archlinux, alpine]
