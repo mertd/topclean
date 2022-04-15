@@ -1,8 +1,9 @@
+use clap::Parser;
+use dirs;
+use serde_derive::Deserialize;
+use std::fs;
 use std::io::{self, Write};
 use std::process::{Command, Output};
-use serde_derive::{Deserialize};
-use std::fs;
-use clap::Parser;
 
 const PREFIX: &str = "[topclean]";
 
@@ -17,7 +18,7 @@ struct Args {
 
 #[derive(Deserialize)]
 struct Config {
-    apps: Vec<App>
+    apps: Vec<App>,
 }
 
 #[derive(Deserialize)]
@@ -54,7 +55,12 @@ impl App {
 
 fn run(run_interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
-    let config: Config = toml::from_str(&fs::read_to_string("config.toml").unwrap()).unwrap();
+
+    let mut config_path = dirs::config_dir().unwrap();
+    config_path.push("topclean.toml");
+    config_path.push("config.toml");
+
+    let config: Config = toml::from_str(&fs::read_to_string(config_path).unwrap()).unwrap();
     for app in config.apps {
         if !run_interactive && app.interactive {
             println!("{} Skipping {}", PREFIX, app.name);
