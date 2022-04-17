@@ -27,3 +27,27 @@ name = "brew"
 cmd = "brew"
 args = ["cleanup"]
 interactive = false
+    
+[[apps]]
+name = "apt"
+cmd = "apt"
+args = ["clean"]
+interactive = false
+
+[[apps]]
+name = "pacman"
+cmd = "pacman"
+args = ["-Scc"]
+interactive = false
+
+[[apps]]
+name = "yum"
+cmd = "yum"
+args = ["clean", "all"]
+interactive = false
+
+[[apps]]
+name = "apk"
+cmd = "apk"
+args = ["cache", "clean"]
+interactive = false
