@@ -8,7 +8,7 @@ on:
 
 jobs:
 
-  ci_on_os:
+  ci:
     name: CI
     strategy:
       matrix:
