@@ -1,7 +1,6 @@
 use std::io::{self, Write};
 use std::process::{Command, Output};
 use serde_derive::{Deserialize};
-use std::fs;
 use clap::Parser;
 
 const PREFIX: &str = "[topclean]";
@@ -54,7 +53,7 @@ impl App {
 
 fn run(run_interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
-    let config: Config = toml::from_str(&fs::read_to_string("config.toml").unwrap()).unwrap();
+    let config: Config = toml::from_str(include_str!("config.toml")).unwrap();
     for app in config.apps {
         if !run_interactive && app.interactive {
             println!("{} Skipping {}", PREFIX, app.name);
