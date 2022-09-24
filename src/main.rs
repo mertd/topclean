@@ -35,13 +35,14 @@ impl App {
     fn clean(&self) {
         let output = Command::new(&self.cmd).arg(&self.args.join(" ")).output();
         match output {
-            Ok(_) => {
-                let result = output.unwrap();
-                io::stdout().write_all(&result.stdout).unwrap();
-                io::stderr().write_all(&result.stderr).unwrap();
+            Ok(r) => {
+                let stdout = std::str::from_utf8(&r.stdout).unwrap();
+                let stderr = std::str::from_utf8(&r.stderr).unwrap();
+                println!("{}", stdout);
+                println!("{}", stderr);
             }
-            Err(e) => {
-                println!("{}", e);
+            Err(error) => {
+                println!("{}", error);
             }
         }
         
