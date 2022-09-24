@@ -32,22 +32,19 @@ struct App {
 }
 
 impl App {
-    fn clean(&self) -> Output {
-        let mut command: Command;
-        if cfg!(target_os = "windows") {
-            command = Command::new("cmd");
-            command.arg("/c");
-        } else {
-            command = Command::new("sh");
-            command.arg("-c");
+    fn clean(&self) {
+        let output = Command::new(&self.cmd).arg(&self.args.join(" ")).output();
+        match output {
+            Ok(_) => {
+                let result = output.unwrap();
+                io::stdout().write_all(&result.stdout).unwrap();
+                io::stderr().write_all(&result.stderr).unwrap();
+            }
+            Err(e) => {
+                println!("{}", e);
+            }
         }
-        command.arg(format!("{} {}", &self.cmd, &self.args.join(" ")));
-        let output = command
-            .output()
-            .expect(&[&self.name, "cleaning failed"].join(" "));
-        io::stdout().write_all(&output.stdout).unwrap();
-        io::stderr().write_all(&output.stderr).unwrap();
-        return output;
+        
     }
 }
 
