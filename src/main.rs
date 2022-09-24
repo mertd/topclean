@@ -1,7 +1,7 @@
-use std::io::{self, Write};
-use std::process::{Command, Output};
+use std::process::{Command};
 use serde_derive::{Deserialize};
 use clap::Parser;
+use std::str::from_utf8;
 
 const PREFIX: &str = "[topclean]";
 
@@ -32,20 +32,21 @@ struct App {
 }
 
 impl App {
-    fn clean(&self) {
+    fn clean(&self) -> bool {
         let output = Command::new(&self.cmd).arg(&self.args.join(" ")).output();
         match output {
-            Ok(r) => {
-                let stdout = std::str::from_utf8(&r.stdout).unwrap();
-                let stderr = std::str::from_utf8(&r.stderr).unwrap();
+            Ok(result) => {
+                let stdout = from_utf8(&result.stdout).unwrap();
+                let stderr = from_utf8(&result.stderr).unwrap();
                 println!("{}", stdout);
                 println!("{}", stderr);
+                return true;
             }
             Err(error) => {
                 println!("{}", error);
+                return false;
             }
         }
-        
     }
 }
 
