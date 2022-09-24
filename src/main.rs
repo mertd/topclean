@@ -33,7 +33,7 @@ struct App {
 
 impl App {
     fn clean(&self) -> bool {
-        let output = Command::new(&self.cmd).arg(&self.args.join(" ")).output();
+        let output = Command::new(&self.cmd).args(&self.args).output();
         match output {
             Ok(result) => {
                 let stdout = from_utf8(&result.stdout).unwrap();
