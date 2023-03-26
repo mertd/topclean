@@ -1,7 +1,13 @@
 [[apps]]
-name = "scoop"
+name = "scoop versions"
 cmd = "scoop"
 args = ["cleanup", "*"]
+interactive = false
+
+[[apps]]
+name = "scoop cache"
+cmd = "scoop"
+args = ["cache", "rm", "*"]
 interactive = false
 
 [[apps]]
