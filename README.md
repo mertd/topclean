@@ -15,7 +15,23 @@ Also, I wanted to try out Rust.
 
 `topclean` is intended to be executed when you are running low on disk space and you are sure that deleting temporary files, caches, files marked for deletion (e.g. recycle bin) etc. is safe.
 
-Until builds are provided, you need to run `cargo run`.
+## Install and Run
+
+### Windows
+
+You can install topclean using scoop as below, or the same way as for other OS.
+
+```
+scoop bucket add https://github.com/mertd/topclean
+scoop install topclean
+topclean
+```
+
+### Generic
+
+Use this for all other OS.
+
+Check out the directory and execute `cargo run`.
 
 ## Licence
 
