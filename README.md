@@ -1,5 +1,8 @@
 # topclean
+
 > Free up disk space with one command
+
+`topclean` is intended to be used when you are running low on disk space and you are sure that deleting temporary files, caches, files marked for deletion (e.g. recycle bin) etc. is safe.
 
 ## Motivation and Inspiration
 
@@ -11,19 +14,18 @@ The goal is to provide disk cleaning functionality like BleachBit, but in a zero
 
 Also, I wanted to try out Rust.
 
-## Usage
-
-`topclean` is intended to be executed when you are running low on disk space and you are sure that deleting temporary files, caches, files marked for deletion (e.g. recycle bin) etc. is safe.
-
 ## Install and Run
 
 ### Windows
 
 You can install topclean using scoop as below, or the same way as for other OS.
 
-```
-scoop bucket add https://github.com/mertd/topclean
+```ps1
+# Add custom bucket
+scoop bucket add topclean https://github.com/mertd/topclean
+# Install
 scoop install topclean
+# Run
 topclean
 ```
 
@@ -31,7 +33,7 @@ topclean
 
 Use this for all other OS.
 
-Check out the directory and execute `cargo run`.
+Check out the repository and execute `cargo run` within the directory.
 
 ## Licence
 
