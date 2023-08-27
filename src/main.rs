@@ -82,6 +82,8 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Very basic test that just checks whether the cleaning process doesn't throw any errors
     #[test]
     fn runs() {
         // Skip interactive commands as they will never exit in a CI pipeline
