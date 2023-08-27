@@ -58,6 +58,7 @@ impl App {
 /// Start the cleaning procedure
 fn run(run_interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
+    // this `config.toml` is read at build time
     let config: Config = toml::from_str(include_str!("config.toml")).unwrap();
     for app in config.apps {
         if !run_interactive && app.interactive {
