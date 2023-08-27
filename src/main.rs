@@ -1,8 +1,9 @@
-use std::process::{Command};
-use serde_derive::{Deserialize};
+use std::process::Command;
+use serde_derive::Deserialize;
 use clap::Parser;
 use std::str::from_utf8;
 
+/// Prepend this prefix to every log message to help distinguish topclean from app logs
 const PREFIX: &str = "[topclean]";
 
 /// Free up disk space by cleaning caches and temporary files
@@ -14,24 +15,28 @@ struct Args {
     skip_interactive: bool,
 }
 
+/// Configuration as defined at build time. See `config.toml`
 #[derive(Deserialize)]
 struct Config {
+    /// Apps supported by topclean
     apps: Vec<App>
 }
 
+/// Contains all information needed to process a single app
 #[derive(Deserialize)]
 struct App {
-    /** App Name */
+    /// App Name
     name: String,
-    /** Executable */
+    /// Executable
     cmd: String,
-    /** Arguments */
+    /// Arguments
     args: Vec<String>,
-    /** Does not exit without user interaction */
+    /// Does not exit without user interaction
     interactive: bool,
 }
 
 impl App {
+    /// Run the command with all configured arguments
     fn clean(&self) -> bool {
         let output = Command::new(&self.cmd).args(&self.args).output();
         match output {
@@ -50,6 +55,7 @@ impl App {
     }
 }
 
+/// Start the cleaning procedure
 fn run(run_interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
     let config: Config = toml::from_str(include_str!("config.toml")).unwrap();
