@@ -9,7 +9,7 @@ const PREFIX: &str = "[topclean]";
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
-    /// Skip apps that require user input to exit even if there were no errors
+    /// Include apps that require user input to exit even if there were no errors
     #[clap(short, long)]
     interactive: bool,
 }
