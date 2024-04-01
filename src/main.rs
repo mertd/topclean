@@ -21,13 +21,13 @@ struct Config {
 
 #[derive(Deserialize)]
 struct App {
-    /** App Name */
+    /// App Name
     name: String,
-    /** Executable */
+    /// Executable
     cmd: String,
-    /** Arguments */
+    /// Arguments
     args: Vec<String>,
-    /** App requires user input to exit even if there were no errors */
+    /// App requires user input to exit even if there were no errors
     interactive: bool,
 }
 
@@ -55,6 +55,7 @@ impl App {
     }
 }
 
+/// Process apps according to configuration
 fn run(interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
     let config: Config = toml::from_str(include_str!("config.toml")).unwrap();
