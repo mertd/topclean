@@ -1,6 +1,6 @@
 use std::io::{self, Write};
 use std::process::{Command, Output};
-use serde_derive::{Deserialize};
+use serde_derive::Deserialize;
 use clap::Parser;
 
 const PREFIX: &str = "[topclean]";
@@ -9,9 +9,9 @@ const PREFIX: &str = "[topclean]";
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
-    /// Skip commands that require user interaction to exit
+    /// Skip apps that require user input to exit even if there were no errors
     #[clap(short, long)]
-    skip_interactive: bool,
+    interactive: bool,
 }
 
 #[derive(Deserialize)]
@@ -27,13 +27,14 @@ struct App {
     cmd: String,
     /** Arguments */
     args: Vec<String>,
-    /** Does not exit without user interaction */
+    /** App requires user input to exit even if there were no errors */
     interactive: bool,
 }
 
 impl App {
     fn clean(&self) -> Output {
         let mut command: Command;
+        // choose appropriate shell
         if cfg!(target_os = "windows") {
             command = Command::new("cmd");
             command.arg("/c");
@@ -41,21 +42,24 @@ impl App {
             command = Command::new("sh");
             command.arg("-c");
         }
+        // construct command with arguments
         command.arg(format!("{} {}", &self.cmd, &self.args.join(" ")));
+        // execute
         let output = command
             .output()
             .expect(&[&self.name, "cleaning failed"].join(" "));
+        // print app output
         io::stdout().write_all(&output.stdout).unwrap();
         io::stderr().write_all(&output.stderr).unwrap();
         return output;
     }
 }
 
-fn run(run_interactive: bool) -> bool {
+fn run(interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
     let config: Config = toml::from_str(include_str!("config.toml")).unwrap();
     for app in config.apps {
-        if !run_interactive && app.interactive {
+        if !interactive && app.interactive {
             println!("{} Skipping {}", PREFIX, app.name);
         } else {
             println!("{} Cleaning {}", PREFIX, app.name);
@@ -68,10 +72,10 @@ fn run(run_interactive: bool) -> bool {
 
 fn main() {
     let args = Args::parse();
-    if args.skip_interactive {
-        println!("{} Skipping interactive commands", PREFIX);
+    if args.interactive {
+        println!("{} Including interactive commands", PREFIX);
     }
-    run(!args.skip_interactive);
+    run(args.interactive);
 }
 
 #[cfg(test)]
