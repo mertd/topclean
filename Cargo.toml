@@ -7,4 +7,4 @@ edition = "2021"
 clap = { version = "3", features = ["derive"] }
 serde = "1"
 serde_derive = "1"
-toml = "0"
+toml = "0.8"
