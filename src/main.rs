@@ -1,7 +1,7 @@
+use clap::Parser;
+use serde_derive::Deserialize;
 use std::io::{self, Write};
 use std::process::{Command, Output};
-use serde_derive::Deserialize;
-use clap::Parser;
 
 const PREFIX: &str = "[topclean]";
 
@@ -16,7 +16,7 @@ struct Args {
 
 #[derive(Deserialize)]
 struct Config {
-    apps: Vec<App>
+    apps: Vec<App>,
 }
 
 #[derive(Deserialize)]
@@ -47,7 +47,7 @@ impl App {
         // execute
         let output = command
             .output()
-            .unwrap_or_else(|_| { panic!("{}", [&self.name, "cleaning failed"].join(" ")) });
+            .unwrap_or_else(|_| panic!("{}", [&self.name, "cleaning failed"].join(" ")));
         // print app output
         io::stdout().write_all(&output.stdout).unwrap();
         io::stderr().write_all(&output.stderr).unwrap();
