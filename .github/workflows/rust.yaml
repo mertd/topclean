@@ -16,7 +16,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
-    - name: Build
-      run: cargo build --verbose
+    - name: Format
+      run: cargo fmt --all -- --check --verbose
+    - name: Clippy
+      run: cargo clippy --verbose
     - name: Test
       run: cargo test --verbose
