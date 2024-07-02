@@ -47,11 +47,11 @@ impl App {
         // execute
         let output = command
             .output()
-            .expect(&[&self.name, "cleaning failed"].join(" "));
+            .unwrap_or_else(|_| { panic!("{}", [&self.name, "cleaning failed"].join(" ")) });
         // print app output
         io::stdout().write_all(&output.stdout).unwrap();
         io::stderr().write_all(&output.stderr).unwrap();
-        return output;
+        output
     }
 }
 
@@ -68,7 +68,7 @@ fn run(interactive: bool) -> bool {
         }
     }
     println!("{} Done!", PREFIX);
-    return true;
+    true
 }
 
 fn main() {
