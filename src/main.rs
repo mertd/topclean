@@ -1,8 +1,8 @@
 use clap::Parser;
 use serde_derive::Deserialize;
-use which::which;
 use std::io::{self, Write};
 use std::process::{Command, Output};
+use which::which;
 
 const PREFIX: &str = "[topclean]";
 
@@ -50,8 +50,12 @@ impl App {
             .output()
             .unwrap_or_else(|_| panic!("{} cleaning failed", &self.name));
         // print app output
-        io::stdout().write_all(&output.stdout).expect("Writing to stdout failed");
-        io::stderr().write_all(&output.stderr).expect("Writing to stderr failed");
+        io::stdout()
+            .write_all(&output.stdout)
+            .expect("Writing to stdout failed");
+        io::stderr()
+            .write_all(&output.stderr)
+            .expect("Writing to stderr failed");
         output
     }
 }
@@ -60,7 +64,8 @@ impl App {
 fn run(interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
     // read config.toml at build time
-    let config: Config = toml::from_str(include_str!("config.toml")).expect("config.toml is invalid");
+    let config: Config =
+        toml::from_str(include_str!("config.toml")).expect("config.toml is invalid");
     for app in config.apps {
         let installed = which(&app.cmd).is_ok();
         if !installed || (!interactive && app.interactive) {
