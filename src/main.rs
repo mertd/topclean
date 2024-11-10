@@ -48,10 +48,10 @@ impl App {
         // execute
         let output = command
             .output()
-            .unwrap_or_else(|_| panic!("{}", [&self.name, "cleaning failed"].join(" ")));
+            .expect(format!("{} cleaning failed", &self.name).as_str());
         // print app output
-        io::stdout().write_all(&output.stdout).unwrap();
-        io::stderr().write_all(&output.stderr).unwrap();
+        io::stdout().write_all(&output.stdout).expext("Writing to stdout failed");
+        io::stderr().write_all(&output.stderr).expect("Writing to stderr failed");
         output
     }
 }
@@ -59,7 +59,8 @@ impl App {
 /// Process apps according to configuration
 fn run(interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
-    let config: Config = toml::from_str(include_str!("config.toml")).unwrap();
+    // read config.toml at build time
+    let config: Config = toml::from_str(include_str!("config.toml")).expect("config.toml is invalid");
     for app in config.apps {
         let installed = which(&app.cmd).is_ok();
         if !installed || (!interactive && app.interactive) {
