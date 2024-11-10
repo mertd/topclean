@@ -35,7 +35,7 @@ struct App {
 impl App {
     fn clean(&self) -> Output {
         let mut command: Command;
-        // choose shell appropriate syntax
+        // choose shell-appropriate syntax
         if cfg!(target_os = "windows") {
             command = Command::new("cmd");
             command.arg("/c");
@@ -63,9 +63,9 @@ impl App {
 /// Process apps according to configuration
 fn run(interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
-    // read config.toml at build time
+    // read supported app configurations at build time
     let config: Config =
-        toml::from_str(include_str!("config.toml")).expect("config.toml is invalid");
+        toml::from_str(include_str!("config.toml")).expect("configuration is invalid");
     for app in config.apps {
         let installed = which(&app.cmd).is_ok();
         if !installed || (!interactive && app.interactive) {
