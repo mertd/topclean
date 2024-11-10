@@ -50,7 +50,7 @@ impl App {
             .output()
             .expect(format!("{} cleaning failed", &self.name).as_str());
         // print app output
-        io::stdout().write_all(&output.stdout).expext("Writing to stdout failed");
+        io::stdout().write_all(&output.stdout).expect("Writing to stdout failed");
         io::stderr().write_all(&output.stderr).expect("Writing to stderr failed");
         output
     }
