@@ -48,7 +48,7 @@ impl App {
         // execute
         let output = command
             .output()
-            .expect(format!("{} cleaning failed", &self.name).as_str());
+            .unwrap_or_else(|_| panic!("{} cleaning failed", &self.name));
         // print app output
         io::stdout().write_all(&output.stdout).expect("Writing to stdout failed");
         io::stderr().write_all(&output.stderr).expect("Writing to stderr failed");
