@@ -1,5 +1,6 @@
 use clap::Parser;
 use serde_derive::Deserialize;
+use which::which;
 use std::io::{self, Write};
 use std::process::{Command, Output};
 
@@ -60,7 +61,12 @@ fn run(interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
     let config: Config = toml::from_str(include_str!("config.toml")).unwrap();
     for app in config.apps {
-        if !interactive && app.interactive {
+        let installed_result = which(&app.cmd);
+        let installed = match installed_result {
+            Ok(_) => true,
+            Err(_) => false,
+        };
+        if !installed || (!interactive && app.interactive) {
             println!("{} Skipping {}", PREFIX, app.name);
         } else {
             println!("{} Cleaning {}", PREFIX, app.name);
