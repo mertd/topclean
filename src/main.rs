@@ -2,6 +2,7 @@ use clap::Parser;
 use serde_derive::Deserialize;
 use std::io::{self, Write};
 use std::process::{Command, Output};
+use which::which;
 
 const PREFIX: &str = "[topclean]";
 
@@ -34,7 +35,7 @@ struct App {
 impl App {
     fn clean(&self) -> Output {
         let mut command: Command;
-        // choose appropriate shell
+        // choose shell-appropriate syntax
         if cfg!(target_os = "windows") {
             command = Command::new("cmd");
             command.arg("/c");
@@ -47,10 +48,14 @@ impl App {
         // execute
         let output = command
             .output()
-            .unwrap_or_else(|_| panic!("{}", [&self.name, "cleaning failed"].join(" ")));
+            .unwrap_or_else(|_| panic!("{} cleaning failed", &self.name));
         // print app output
-        io::stdout().write_all(&output.stdout).unwrap();
-        io::stderr().write_all(&output.stderr).unwrap();
+        io::stdout()
+            .write_all(&output.stdout)
+            .expect("Writing to stdout failed");
+        io::stderr()
+            .write_all(&output.stderr)
+            .expect("Writing to stderr failed");
         output
     }
 }
@@ -58,9 +63,12 @@ impl App {
 /// Process apps according to configuration
 fn run(interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
-    let config: Config = toml::from_str(include_str!("config.toml")).unwrap();
+    // read supported app configurations at build time
+    let config: Config =
+        toml::from_str(include_str!("config.toml")).expect("configuration is invalid");
     for app in config.apps {
-        if !interactive && app.interactive {
+        let installed = which(&app.cmd).is_ok();
+        if !installed || (!interactive && app.interactive) {
             println!("{} Skipping {}", PREFIX, app.name);
         } else {
             println!("{} Cleaning {}", PREFIX, app.name);
@@ -86,6 +94,6 @@ mod tests {
     fn runs() {
         // Skip interactive commands as they will never exit in a CI pipeline
         let result = run(false);
-        assert_eq!(result, true);
+        assert!(result);
     }
 }

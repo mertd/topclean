@@ -8,3 +8,4 @@ clap = { version = "3", features = ["derive"] }
 serde = "1"
 serde_derive = "1"
 toml = "0.8"
+which = "7"
