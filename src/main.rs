@@ -61,11 +61,7 @@ fn run(interactive: bool) -> bool {
     println!("{} Starting!", PREFIX);
     let config: Config = toml::from_str(include_str!("config.toml")).unwrap();
     for app in config.apps {
-        let installed_result = which(&app.cmd);
-        let installed = match installed_result {
-            Ok(_) => true,
-            Err(_) => false,
-        };
+        let installed = which(&app.cmd).is_ok();
         if !installed || (!interactive && app.interactive) {
             println!("{} Skipping {}", PREFIX, app.name);
         } else {
@@ -92,6 +88,6 @@ mod tests {
     fn runs() {
         // Skip interactive commands as they will never exit in a CI pipeline
         let result = run(false);
-        assert_eq!(result, true);
+        assert!(result);
     }
 }
