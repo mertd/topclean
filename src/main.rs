@@ -35,7 +35,7 @@ struct App {
 impl App {
     fn clean(&self) -> Output {
         let mut command: Command;
-        // choose appropriate shell
+        // choose shell appropriate syntax
         if cfg!(target_os = "windows") {
             command = Command::new("cmd");
             command.arg("/c");
