@@ -1,10 +1,10 @@
 {
-    "version": "0.4.0",
+    "version": "0.5.0",
     "description": "Free up disk space with one command and zero config. Inspired by topgrade and BleachBit.",
     "homepage": "https://github.com/mertd/topclean",
     "license": "MIT",
-    "url": "https://github.com/mertd/topclean/releases/download/0.4.0/topclean.exe",
-    "hash": "d79e5a8af27858893cc5e2524cd52ad1bda5c9593e3d1e11f3ffa6f14c8acbed",
+    "url": "https://github.com/mertd/topclean/releases/download/0.5.0/topclean.exe",
+    "hash": "7624c4442ca6ae824e795f3732905129460b77fbcfaf25d168466b93db28a43b",
     "bin": "topclean.exe",
     "checkver": "github",
     "autoupdate": {
