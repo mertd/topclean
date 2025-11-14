@@ -63,3 +63,9 @@ name = "dnf"
 cmd = "dnf"
 args = ["clean", "all"]
 interactive = false
+
+[[apps]]
+name = "yum"
+cmd = "yum"
+args = ["clean", "all"]
+interactive = false
