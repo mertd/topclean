@@ -57,3 +57,9 @@ name = "apk"
 cmd = "apk"
 args = ["cache", "clean"]
 interactive = false
+
+[[apps]]
+name = "dnf"
+cmd = "dnf"
+args = ["clean", "all"]
+interactive = false
